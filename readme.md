@@ -41,9 +41,9 @@ This setup includes:
    cd ~/MediaServe```
 3. Start the services:
    ```bash
-    docker compose -f mediaserver.yaml up --build``
-4. Open jellyfin browser
+    docker compose -f mediaserver.yaml up --build```
+4. Search movie in radarr and add the movie and view the moview in your private netflix at
    ```bash 
-      http://localhost:8080
+      http://localhost:8096
     ```
 
