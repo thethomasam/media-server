@@ -1,20 +1,21 @@
+version: "3.9"
+
 services:
-  # The Player
+
   jellyfin:
     image: lscr.io/linuxserver/jellyfin:latest
     container_name: jellyfin
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Etc/UTC # Change to yours, e.g., America/New_York
+      - TZ=Australia/Adelaide
     volumes:
-      - /home/sam/MediaServer/config/jellyfin:/config
-      - /home/sam/MediaServer/data:/data
+      - /mnt/data/MediaServer/config/jellyfin:/config
+      - /mnt/data/MediaServer/data:/data
     ports:
-      - 8096:8096
+      - "8096:8096"
     restart: unless-stopped
 
-  # TV Shows Automation
   sonarr:
     image: lscr.io/linuxserver/sonarr:latest
     container_name: sonarr
@@ -22,13 +23,12 @@ services:
       - PUID=1000
       - PGID=1000
     volumes:
-      - /home/sam/MediaServer/config/sonarr:/config
-      - /home/sam/MediaServer/data:/data # Links to root /data for Hardlinking
+      - /mnt/data/MediaServer/config/sonarr:/config
+      - /mnt/data/MediaServer/data:/data
     ports:
-      - 8989:8989
+      - "8989:8989"
     restart: unless-stopped
 
-  # Movies Automation
   radarr:
     image: lscr.io/linuxserver/radarr:latest
     container_name: radarr
@@ -36,13 +36,12 @@ services:
       - PUID=1000
       - PGID=1000
     volumes:
-      - /home/sam/MediaServer/config/radarr:/config
-      - /home/sam/MediaServer/data:/data
+      - /mnt/data/MediaServer/config/radarr:/config
+      - /mnt/data/MediaServer/data:/data
     ports:
-      - 7878:7878
+      - "7878:7878"
     restart: unless-stopped
 
-  # Indexer Manager (The Librarian)
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr
@@ -50,38 +49,35 @@ services:
       - PUID=1000
       - PGID=1000
     volumes:
-      - /home/sam/MediaServer/config/prowlarr:/config
+      - /mnt/data/MediaServer/config/prowlarr:/config
     ports:
-      - 9696:9696
+      - "9696:9696"
     restart: unless-stopped
 
-  # Downloader
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbittorrent
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Australia/Adelaide   # Change if needed
+      - TZ=Australia/Adelaide
       - WEBUI_PORT=8080
-      - WEBUI_PORT=8080
-      - WEBUI_USERNAME=sam
-      - WEBUI_PASSWORD=sam
     volumes:
-      - /home/sam/MediaServer/config/qbittorrent:/config
-      - /home/sam/MediaServer/data:/data
+      - /mnt/data/MediaServer/config/qbittorrent:/config
+      - /mnt/data/MediaServer/data:/data
     ports:
-      - 8080:8080
-      - 6881:6881
-      - 6881:6881/udp
+      - "8080:8080"
+      - "6881:6881"
+      - "6881:6881/udp"
     restart: unless-stopped
-  # Flare Resolver
+
   flaresolverr:
     image: ghcr.io/flaresolverr/flaresolverr:latest
     container_name: flaresolverr
     environment:
       - LOG_LEVEL=info
-      - TZ=Etc/UTC
+      - TZ=Australia/Adelaide
     ports:
-      - 8191:8191
-    restart: unless-stopped   
+      - "8191:8191"
+    restart: unless-stopped
+
